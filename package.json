@@ -1,0 +1,33 @@
+{
+  "name": "ib11t",
+  "version": "1.0.0",
+  "description": "alpha banc items",
+  "source": [
+    "./itemone.html",
+    "./itemtwo.html"
+  ],
+  "scripts": {
+    "start": "parcel ./itemtwotest.js",
+    "build": "parcel build ./itemtwotest.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/virginiabrobertson/bancitems.git"
+  },
+  "keywords": [
+    "item",
+    "banc",
+    "itembanc"
+  ],
+  "author": "virginiabrobertson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/virginiabrobertson/bancitems/issues"
+  },
+  "homepage": "https://github.com/virginiabrobertson/bancitems#readme",
+  "dependencies": {
+    "@types/node": "^22.2.0",
+    "dotenv": "^16.4.5"
+  }
+}

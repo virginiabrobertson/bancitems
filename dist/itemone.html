@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>itemone</title>
+       
+    </head>
+    <body>
+        <h1>Welcome to the Item Banc!</h1>
+        <img src="/logoblue.c9118e11.gif" alt="" width="300" height="300">
+        <br>
+        <p>Enter the following information for your inventory ITEM</p>
+        
+        <label for="itemName">What is your item? Enter the most common name for it</label>
+        <input type="text" id="itemName" name="itemName"> <br>
+
+        <label for="itemLocation">Where is your item? Enter the city</label>
+        <input type="text" id="itemLocation" name="itemLocation"> <br>
+
+        <label for="itemPrice">What is the item price? Enter with currency symbol.</label>
+        <input type="text" id="itemPrice" name="itemPrice"> <br>
+
+        <button onclick="displayInfo()">Submit</button> <br><br>
+
+        <div id="itemNameDisplay"></div>
+        <div id="itemLocationDisplay"></div>
+        <div id="itemPriceDisplay"></div>
+
+        <br>
+
+        <script src="/itemone.9dbf6edd.js"></script> 
+    
+        <button id="nextButton" onclick="goToNext()">Next</button>
+
+          
+        
+        <script>// function displayInfo() {
+//     document.getElementById("nextButton").style.display = "block";
+// }
+function goToNext() {
+    //get the values entered by the user
+    const itemName = document.getElementById("itemName").value;
+    const itemLocation = document.getElementById("itemLocation").value;
+    const itemPrice = document.getElementById("itemPrice").value;
+    //Redirect to the next page, passing the values as URL params
+    //window.location.href = 'itemtwo.html?itemName=${itemName}&itemLocation=${itemLocation}&itemPrice=${itemPrice}';
+    // window.location.href = "itemtwo.html?itemName="+itemName+"&itemLocation="+itemLocation+"&itemPrice="+itemPrice+"";
+    const params = new URLSearchParams();
+    params.set("itemName", itemName);
+    params.set("itemLocation", itemLocation);
+    params.set("itemPrice", itemPrice);
+    const url = new URL("itemtwo.html", window.location.href);
+    url.search = params.toString();
+    window.location.href = url.toString();
+}
+
+</script>
+ 
+    <script src="/itemone.c7e282e3.js"></script></body>
+    </html>
