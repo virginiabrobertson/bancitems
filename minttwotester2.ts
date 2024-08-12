@@ -7,24 +7,25 @@ import { createInitializeInstruction, createUpdateFieldInstruction, TokenMetadat
 import {Connection, Keypair, clusterApiUrl, sendAndConfirmTransaction, SystemProgram, Transaction } from "@solana/web3.js";
 const connection = new Connection(clusterApiUrl("devnet"));
 
-// just for testing. plan to use .env
+// just for testing. plan to use phantom. identify payer public key
 async function mainPayer() {
 const payer = await getKeypairFromFile("C:\\Users\\jenni\\.config\\solana\\id.json");
 
 console.log("payer", payer.publicKey.toBase58());
 
+
 const mint = Keypair.generate();
 console.log("mint", mint.publicKey.toBase58());
 
-//these are the assigned variables that work
+//these are the assigned variables that work for test
 let itemName = "LVP Oak";
 let itemDescription = "lvp oak";
 let itemLocation = "Savannah";
 let itemPrice = "5";
 
-//or....
+//or.... get values form the url params in itemtwo.html
 
-// get values from the url params
+
 //const urlParams = new URLSearchParams(window.location.search);
 
 // get the values from the url params
