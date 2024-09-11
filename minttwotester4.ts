@@ -49,10 +49,10 @@ async function mainPayer() {
         mintSpace + metadataSpace);
     console.log('lamports', lamports);
     
-    //const message= "Please sign to authorize creation of NFTs";
-    //const encodeMessage= new TextEncoder().encode(message);
-    //const {signature1}= await window.solana.signMessage(encodeMessage, 'utf8');
-    //console.log('message signed ');
+    const message= "Please sign to authorize creation of NFTs";
+    const encodeMessage= new TextEncoder().encode(message);
+    const {signature1}= await window.solana.signMessage(encodeMessage, 'utf8');
+    console.log('message signed ');
 
 
     //or.... get values form the url params in itemtwo.html
@@ -131,70 +131,26 @@ const initializeMintIx= createInitializeMintInstruction(
     });
 
     try {
-        //await window.solana.connect();
-        //const payer =  await getProvider();
+       
         console.log("payer", payer.publicKey.toBase58());
         let {blockhash} = await connection.getLatestBlockhash();
         const transaction = new Transaction();
         transaction.recentBlockhash = blockhash;
         transaction.feePayer = payer.publicKey;
         transaction.add(createAccountIx);
-        const signedTransaction1 = await window.solana.signTransaction(transaction);
-        const signature1 = await connection.sendRawTransaction(signedTransaction1.serialize());
-
-        //transaction.add(initializeMetadataPointerIx);
-        //const signedTransaction2 = await window.solana.signTransaction(transaction);
-        //transaction.add(initializeMintIx);
-        //const signedTransaction3 = await window.solana.signTransaction(transaction);
+        const signedTransaction1 = await window.solana.signAndSendTransaction(await transaction);
+        await connection.confirmTransaction(signedTransaction1);
         console.log(signedTransaction1);
-        //console.log(signedTransaction2);
-        //console.log(signedTransaction3);
         //const signature1 = await connection.sendRawTransaction(signedTransaction1.serialize());
-        //const signature2 = await connection.sendRawTransaction(signedTransaction1.serialize());
-        //const signature3 = await connection.sendRawTransaction(signedTransaction1.serialize());
-        //console.log(signature1);
-        //console.log(signature2);
-        //console.log(signature3);
-        }catch (error) {
-        console.error("error at signature", error);
-        }; 
-
-        try {
-           
-        console.log("payernext ", payer.publicKey.toBase58());
-        let {blockhash} = await connection.getLatestBlockhash();
-        const transaction = new Transaction();
-        transaction.recentBlockhash = blockhash;
-        transaction.feePayer = payer.publicKey;
-        transaction.add(initializeMetadataIx);
-        transaction.add(updateMetadataField1);
-        transaction.add(updateMetadataField2);
-        transaction.add(updateMetadataField3);
-        
-       //original method with cli:
-       // const transaction=new Transaction().add(
-       // createAccountIx,
-       // initializeMetadataPointerIx,
-       // initializeMintIx,
-        
-       // initializeMetadataIx,
-       // updateMetadataField1,
-       // updateMetadataField2,
-       // updateMetadataField3
-       // );
-
        
-        //const signedTransaction = await window.solana.signAndSendTransaction(transaction);
-        //console.log(signedTransaction);
-        }catch (error) {
+        
+        } catch (error) {
         console.error("error at signature", error);
-        };   
-
-
-};
-    
-mainPayer();
-//mainPayer().catch(error => {
-//    console.error("Error:", error);
-//});
+       
+        }    
+    }
+//mainPayer();
+mainPayer().catch(error => {
+    console.error("Error:", error);
+});
 
