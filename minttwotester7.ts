@@ -76,14 +76,9 @@ async function mainPayer() {
     console.log('message signed ');
 
 
-    //or.... get values form the url params in itemtwo.html
+//Get metadata values from the url params in itemtwo.html
 
 
-const moveMoney = SystemProgram.transfer({
-    fromPubkey: provider.publicKey,
-    toPubkey: newTokenPayer.publicKey,
-    lamports: 10000000
-})
 
 const createAccountIx = SystemProgram.createAccount({
         fromPubkey: provider.publicKey,
@@ -142,17 +137,7 @@ const initializeMintIx= createInitializeMintInstruction(
     value: metadata.additionalMetadata[2][1]
     });
 
-    //const makeTokens = createMintToInstruction({
-    //mint: mint.publicKey, 
-    //destination: 'CLTycZtfAzkyVb2YZY5ySKtQoJo89tHoEM1T6LaCveM4', 
-    //authorityPublicKey: provider.publicKey, 
-    //amount: 1000000000, 
-    //multiSigners:[provider], 
-    //programId: TOKEN_PROGRAM_ID
-    //});
-
-   
-
+    
 
     try {
        
@@ -203,14 +188,7 @@ const initializeMintIx= createInitializeMintInstruction(
        
         const txsignature=await connection.sendRawTransaction(serializedTransaction);
         console.log('raw sig', txsignature);
-        //const transactionBase64 = serializedTransaction.toString('base64');
-        //console.log('transaction', transactionBase64);
-        //return{encoded_transaction: transactionBase64};
-
-        //const mintInfo= await getMint(connection, mint.publicKey);
-        //console.log(mintInfo.supply);
-        //const theMint= await mintTo(connection, newTokenPayer, mint.publicKey, provider.publicKey, provider.publicKey, 1000000000);
-        //console.log(theMint);
+       
        
         } catch (error) {
         console.error("error in transaction", error);
@@ -232,58 +210,55 @@ const initializeMintIx= createInitializeMintInstruction(
         transaction2.lastValidBlockHeight = latestBlockhash.lastValidBlockHeight;
         transaction2.feePayer = provider.publicKey;
        
-console.log('mint.publicKey: ', mint.publicKey);
-console.log('provider.publicKey: ', provider.publicKey)
+        console.log('mint.publicKey: ', mint.publicKey);
+        console.log('provider.publicKey: ', provider.publicKey)
 
 
    
 
     
-    const getata=await getAssociatedTokenAddress(
+        const getata=await getAssociatedTokenAddress(
         mint.publicKey, 
         provider.publicKey,
         false,
         TOKEN_2022_PROGRAM_ID,
         ASSOCIATED_TOKEN_PROGRAM_ID
-    );
-    const ata = getata.toBase58();
+        );
+        const ata = getata.toBase58();
     
-    console.log('ata', ata);
+        console.log('ata', ata);
 
-    const makeata = createAssociatedTokenAccountInstruction(
+        const makeata = createAssociatedTokenAccountInstruction(
         provider.publicKey,
         getata,
         provider.publicKey,
         mint.publicKey,
         TOKEN_2022_PROGRAM_ID,
         ASSOCIATED_TOKEN_PROGRAM_ID
-    );
+        );
 
        
-    const makeTokens = createMintToInstruction(
-    mint.publicKey, 
-    getata, 
-    provider.publicKey, 
-    100n, 
-    provider, 
-    TOKEN_2022_PROGRAM_ID
-    );
+        const makeTokens = createMintToInstruction(
+        mint.publicKey, 
+        getata, 
+        provider.publicKey, 
+        100n, 
+        provider, 
+        TOKEN_2022_PROGRAM_ID
+        );
     
      
-    //const signata= await window.solana.signTransaction(ata);
-      
-            transaction2.add(
-                makeata,
-                makeTokens
-            );
+        transaction2.add(
+        makeata,
+        makeTokens
+        );
           
-            const sig2 = await window.solana.signTransaction(transaction2);
-            if (sig2.recentBlockhash !== transaction2.recentBlockhash) {
-                throw new Error ('Transaction has changed since signing');
-            }
+        const sig2 = await window.solana.signTransaction(transaction2);
+        if (sig2.recentBlockhash !== transaction2.recentBlockhash) {
+        throw new Error ('Transaction has changed since signing');
+        }
 
        
-        
         console.log('token mint signed too', sig2)
         console.log("transaction2", transaction2);
         const serializedTransaction2= sig2.serialize();
